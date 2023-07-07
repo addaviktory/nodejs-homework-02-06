@@ -1,3 +1,4 @@
+
 ## GoIT Node.js Course Template Homework
 
 Виконайте форк цього репозиторію для виконання домашніх завдань (2-6)
@@ -29,3 +30,20 @@
 - `npm run start:dev` &mdash; старт сервера в режимі розробки (development)
 - `npm run lint` &mdash; запустити виконання перевірки коду з eslint, необхідно виконувати перед кожним PR та виправляти всі помилки лінтера
 - `npm lint:fix` &mdash; та ж перевірка лінтера, але з автоматичними виправленнями простих помилок
+
+
+
+
+
+
+const express = require('express');
+const controller = require('../../controllers/contacts')
+const controllerWrapper = require ('../../helpers/controllerWrapper')
+const router = express.Router();
+
+router.get('/', controllerWrapper(controller.getAllContacts));
+router.get('/:contactId', controllerWrapper(controller.getContactById));
+router.post('/', controllerWrapper(controller.createContact));
+
+
+module.exports = router;
