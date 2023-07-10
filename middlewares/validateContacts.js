@@ -13,3 +13,4 @@ const validateContacts = (req, res, next) => {
 module.exports = {
   validateContacts
 };
+
