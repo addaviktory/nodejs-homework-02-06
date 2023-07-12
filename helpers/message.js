@@ -5,8 +5,8 @@ const contactDeleteMessage = 'Contact deleted';
 // user
 
 const inUseEmailMessage = 'Email in use';
-const errorPasswordEmailMessage = 'Email or password is wrong'
-const notAuthorizedMessage = 'Not authorized'
+const errorPasswordEmailMessage = 'Email or password is wrong';
+const notAuthorizedMessage = 'Not authorized';
 
 module.exports = {
     notFoundMessage,
@@ -14,5 +14,5 @@ module.exports = {
     contactDeleteMessage,
     inUseEmailMessage,
     errorPasswordEmailMessage,
-    notAuthorizedMessage,
+    notAuthorizedMessage
 };

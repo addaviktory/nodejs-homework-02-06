@@ -8,11 +8,12 @@ const logoutUser = async (req, res, next) => {
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    if (error.name === 'UnauthorizedError') {
+    if (error.name.toLowerCase().includes('unauthorized')) {
       res.status(401).json({ message: notAuthorizedMessage });
     } else {
       res.status(500).json({ message: internalServerErrorMessage });
     }
+    next(error);
   }
 };
 
