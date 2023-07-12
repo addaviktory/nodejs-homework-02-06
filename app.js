@@ -1,12 +1,12 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
-const Joi = require('joi');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const { internalServerErrorMessage, notFoundMessage } = require('./helpers/message')
+const { internalServerErrorMessage, notFoundMessage } = require('./helpers/message');
 const contactsRouter = require('./routes/api/contacts');
+const usersRouter = require('./routes/api/users');
 
 const app = express();
 
@@ -30,13 +30,15 @@ mongoose
   });
 
 app.use('/api/contacts', contactsRouter);
+app.use('/api/users', usersRouter);
 
-app.use((req, res) => {
+app.use((req, res, next) => {
   res.status(404).json({ message: notFoundMessage });
 });
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: internalServerErrorMessage});
+  console.error(err.stack);
+  res.status(500).json({ message: internalServerErrorMessage });
 });
 
 module.exports = app;
