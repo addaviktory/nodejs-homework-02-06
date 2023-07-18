@@ -4,19 +4,21 @@ const { internalServerErrorMessage, unauthorizedMessage } = require('../helpers/
 
 const authenticateUser = async (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const authHeader = req.header('Authorization');
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ message: unauthorizedMessage });
     }
 
+    const token = authHeader.replace('Bearer ', '');
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId
+    const userId = decoded.userId;
     const user = await User.findById(userId);
 
     if (!user || user.token !== token) {
       return res.status(401).json({ message: unauthorizedMessage });
     }
+
     req.user = user;
     req.token = token;
 

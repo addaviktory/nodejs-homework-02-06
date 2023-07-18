@@ -1,4 +1,4 @@
-const internalServerErrorMessage = require('../../helpers/message')
+const {internalServerErrorMessage, failedValidationMessage} = require('../../helpers/message')
 const Contact = require('../../models/contactModel');
 
 const createContact = async (req, res, next) => {
@@ -8,7 +8,11 @@ const createContact = async (req, res, next) => {
     res.status(201).json(newContact);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: internalServerErrorMessage });
+    if (error instanceof Contact.ValidationError) {
+      res.status(400).json({ message: failedValidationMessage });
+    } else {
+      res.status(500).json({ message: internalServerErrorMessage });
+    }
   }
 };
 

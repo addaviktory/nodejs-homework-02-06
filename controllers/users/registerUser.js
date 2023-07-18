@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt');
+const gravatar = require('gravatar');
 const User = require('../../models/userModel');
 const { validationResult } = require('express-validator');
-const { inUseEmailMessage, internalServerErrorMessage} = require('../../helpers/message');
-
+const { inUseEmailMessage, internalServerErrorMessage } = require('../../helpers/message');
+const path = require('path');
 
 const registerUser = async (req, res, next) => {
   try {
@@ -19,17 +20,21 @@ const registerUser = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+    const defaultAvatarPath = path.join(__dirname, '../../public/avatars/avatar.jpeg');
+    const avatarURL = `https:${gravatar.url(req.body.email, { s: '200', r: 'pg', d: 'mm' })}`;
+
     const newUser = await User.create({
       email: req.body.email,
       password: hashedPassword,
       subscription: 'starter',
+      avatarURL: avatarURL || defaultAvatarPath,
     });
 
     res.status(201).json({ user: newUser });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: internalServerErrorMessage});
+    res.status(500).json({ message: internalServerErrorMessage });
   }
 };
 
-module.exports = registerUser
+module.exports = registerUser;

@@ -5,8 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const { internalServerErrorMessage, notFoundMessage } = require('./helpers/message');
-const contactsRouter = require('./routes/api/contacts');
-const usersRouter = require('./routes/api/users');
+const routes = require('./routes/api/routes');
 
 const app = express();
 
@@ -28,9 +27,10 @@ mongoose
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);
   });
+  
 
-app.use('/api/contacts', contactsRouter);
-app.use('/api/users', usersRouter);
+app.use(express.static('public'));
+app.use(routes);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: notFoundMessage });

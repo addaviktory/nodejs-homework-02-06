@@ -6,7 +6,7 @@ const deleteContact = async (req, res, next) => {
   try {
     const deletedContact = await Contact.findByIdAndDelete(contactId);
     if (deletedContact) {
-      res.json({ message: 'Contact deleted', contact: deletedContact });
+      res.json({ message: contactDeleteMessage, contact: deletedContact });
     } else {
       res.status(404).json({ message: notFoundMessage });
     }
