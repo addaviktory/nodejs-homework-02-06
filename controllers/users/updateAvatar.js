@@ -1,13 +1,10 @@
 const jimp = require('jimp');
 const path = require('path');
 const fs = require('fs/promises');
-const {notAuthorizedMessage, internalServerErrorMessage} = require('../../helpers/message');
+const {internalServerErrorMessage} = require('../../helpers/message');
 
 const updateAvatar = async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: notAuthorizedMessage });
-    }
     const avatar = req.file;
 
     const processedAvatar = await jimp.read(avatar.path);

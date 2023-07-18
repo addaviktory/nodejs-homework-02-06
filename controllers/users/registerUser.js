@@ -17,8 +17,8 @@ const registerUser = async (req, res, next) => {
       return res.status(409).json({ message: inUseEmailMessage });
     }
 
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const defaultAvatarPath = path.join(__dirname, '../../public/avatars/avatar.jpeg');
     const avatarURL = `https:${gravatar.url(req.body.email, { s: '200', r: 'pg', d: 'mm' })}`;

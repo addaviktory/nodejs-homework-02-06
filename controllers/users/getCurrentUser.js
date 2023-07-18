@@ -3,15 +3,16 @@ const { internalServerErrorMessage, notAuthorizedMessage } = require('../../help
 
 const getCurrentUser = async (req, res, next) => {
   try {
-    const userId = req.user._id;
-
-    const currentUser = await User.findById(userId, { password: 0 });
+    const currentUser = req.user;
 
     if (!currentUser) {
       return res.status(401).json({ message: notAuthorizedMessage });
     }
 
-    res.status(200).json({ email: currentUser.email, subscription: currentUser.subscription });
+    const userId = currentUser._id;
+    const { email, subscription } = await User.findById(userId, { password: 0 });
+
+    res.status(200).json({ email, subscription });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: internalServerErrorMessage });
