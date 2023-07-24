@@ -9,7 +9,17 @@ const inUseEmailMessage = 'Email in use';
 const errorPasswordEmailMessage = 'Email or password is wrong';
 const notAuthorizedMessage = 'Not authorized';
 
-const noFileUploadedMessage= 'No file uploaded';
+const noFileUploadedMessage = 'No file uploaded';
+
+const unverifiedEmailMessage = 'Unverified Email';
+
+const verificationSuccessMessage = 'Verification successful';
+const alreadyVerifiedMessage = 'User already verified';
+
+const missingEmailFieldMessage = 'Missing required field: email';
+
+const verificationAlreadyMessage = 'Verification has already been passed';
+const verificationEmailSentMessage = 'Verification email sent';
 
 module.exports = {
     notFoundMessage,
@@ -19,5 +29,11 @@ module.exports = {
     inUseEmailMessage,
     errorPasswordEmailMessage,
     notAuthorizedMessage,
-    noFileUploadedMessage
+    noFileUploadedMessage,
+    unverifiedEmailMessage,
+    verificationSuccessMessage,
+    alreadyVerifiedMessage,
+    missingEmailFieldMessage,
+    verificationAlreadyMessage,
+    verificationEmailSentMessage
 };

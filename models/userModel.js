@@ -1,28 +1,38 @@
 const mongoose = require('mongoose');
 const gravatar = require('gravatar');
 
-const userSchema = new mongoose.Schema({
-  password: {
-    type: String,
-    required: [true, 'Set password for user'],
+const userSchema = new mongoose.Schema(
+  {
+    password: {
+      type: String,
+      required: [true, 'Set password for user'],
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+    },
+    subscription: {
+      type: String,
+      enum: ['starter', 'pro', 'business', 'free'],
+      default: 'starter',
+    },
+    token: String,
+    avatarURL: String,
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
+    },
   },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    unique: true,
-  },
-  subscription: {
-    type: String,
-    enum: ['starter', 'pro', 'business', 'free'],
-    default: 'starter',
-  },
-  token: String,
-  avatarURL: String,
-},
-{
-  versionKey: false,
-  timestamps: true,
-});
+  {
+    versionKey: false,
+    timestamps: true,
+  }
+);
 
 userSchema.pre('save', function (next) {
   if (!this.avatarURL) {
@@ -30,6 +40,10 @@ userSchema.pre('save', function (next) {
   }
   next();
 });
+
+userSchema.methods.setVerificationToken = function () {
+  this.verificationToken = someTokenGenerationFunction();
+};
 
 const User = mongoose.model('User', userSchema);
 
