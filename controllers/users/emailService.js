@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 async function sendVerificationEmail(email, verificationToken) {
-  const port = process.env.PORT || 3000
+  const port = process.env.PORT
   const verificationLink = `http://localhost:${port}/users/verify/${verificationToken}`;
 
   const transporter = nodemailer.createTransport({

@@ -42,7 +42,7 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.methods.setVerificationToken = function () {
-  this.verificationToken = someTokenGenerationFunction();
+  this.verificationToken = uuid.v4();
 };
 
 const User = mongoose.model('User', userSchema);
