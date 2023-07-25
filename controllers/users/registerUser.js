@@ -5,7 +5,7 @@ const User = require('../../models/userModel');
 const { validationResult } = require('express-validator');
 const { inUseEmailMessage, internalServerErrorMessage } = require('../../helpers/message');
 const path = require('path');
-const emailService = require('./emailService');
+const emailService = require('../../services/email/emailService');
 
 const registerUser = async (req, res, next) => {
   try {
