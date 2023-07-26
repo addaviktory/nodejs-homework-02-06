@@ -2,8 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/userModel');
 const { validationResult } = require('express-validator');
-const { internalServerErrorMessage, errorPasswordEmailMessage } = require('../../helpers/message');
-
+const { internalServerErrorMessage, errorPasswordEmailMessage, unverifiedEmailMessage } = require('../../helpers/message'); // Додайте повідомлення для неверифікованого email
 
 const loginUser = async (req, res, next) => {
   try {
@@ -15,14 +14,19 @@ const loginUser = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ message: errorPasswordEmailMessage });
     }
+
+    if (!user.verify) {
+      return res.status(403).json({ message: unverifiedEmailMessage });
+    }
+
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: errorPasswordEmailMessage });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
-    user.token = token; 
-    await user.save(); 
+    user.token = token;
+    await user.save();
 
     res.status(200).json({ token, user: { email: user.email, subscription: user.subscription } });
   } catch (error) {
